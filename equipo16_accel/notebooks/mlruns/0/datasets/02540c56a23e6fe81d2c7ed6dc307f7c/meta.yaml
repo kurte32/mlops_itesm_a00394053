@@ -1,0 +1,11 @@
+digest: dc8091d8
+name: accelerometer_data
+profile: '{"num_rows": 153000, "num_elements": 1224000}'
+schema: '{"mlflow_colspec": [{"type": "long", "name": "wconfid", "required": true},
+  {"type": "long", "name": "pctid", "required": true}, {"type": "double", "name":
+  "x", "required": true}, {"type": "double", "name": "y", "required": true}, {"type":
+  "double", "name": "z", "required": true}, {"type": "long", "name": "time", "required":
+  true}, {"type": "double", "name": "vibration_magnitude", "required": true}, {"type":
+  "string", "name": "configuraci\u00f3n", "required": true}]}'
+source: '{"uri": "accelerometer.csv"}'
+source_type: local
