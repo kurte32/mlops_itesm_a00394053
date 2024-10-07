@@ -66,7 +66,7 @@ for model_info in models:
         model=model_info['model'],
         params=model_info['params'],
         model_name=model_info['name'],
-        mlflow_experiment="Vibration_Configuration_Classification"
+        mlflow_experiment="Vibration_Configuration_Classification_refactorizado"
     )
     trainer.run_training(
         model_info['X_train'],
