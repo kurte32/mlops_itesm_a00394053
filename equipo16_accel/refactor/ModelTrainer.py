@@ -9,7 +9,6 @@ from sklearn.metrics import (
 )
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
 
 class ModelTrainer:
     def __init__(self, model, params, model_name, mlflow_experiment):
@@ -19,12 +18,12 @@ class ModelTrainer:
         self.mlflow_experiment = mlflow_experiment
         self.run = None
 
-    def train(self, X_train, y_train):
-        self.model.fit(X_train, y_train)
+    def train(self, x_train, y_train):
+        self.model.fit(x_train, y_train)
     
-    def predict(self, X_test):
-        return self.model.predict(X_test)
-    
+    def predict(self, x_test):
+        return self.model.predict(x_test)
+
     def evaluate(self, y_test, y_pred):
         metrics = {
             'accuracy': accuracy_score(y_test, y_pred),
@@ -33,7 +32,7 @@ class ModelTrainer:
             'f1_score': f1_score(y_test, y_pred, average='weighted')
         }
         return metrics
-    
+
     def log_metrics(self, metrics):
         for key, value in metrics.items():
             mlflow.log_metric(key, value)
@@ -62,7 +61,7 @@ class ModelTrainer:
         else:
             mlflow.sklearn.log_model(self.model, self.model_name)
     
-    def run_training(self, X_train, X_test, y_train, y_test):
+    def run_training(self, x_train, x_test, y_train, y_test):
         mlflow.set_experiment(self.mlflow_experiment)
         with mlflow.start_run(run_name=self.model_name) as run:
             self.run = run
@@ -70,10 +69,10 @@ class ModelTrainer:
             mlflow.log_params(self.params)
             
             # Train the model
-            self.train(X_train, y_train)
+            self.train(x_train, y_train)
             
             # Make predictions
-            y_pred = self.predict(X_test)
+            y_pred = self.predict(x_test)
             
             # Evaluate the model
             metrics = self.evaluate(y_test, y_pred)
