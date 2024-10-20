@@ -1,0 +1,15 @@
+artifact_uri: file:///home/kurtbadelt/MNA/MLOPS/MLOps/notebooks/Actividades/Fase1/equipo16_accel/notebooks/mlruns/0/330df4574ae346a0b318b039076ef751/artifacts
+end_time: 1729384365236
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 330df4574ae346a0b318b039076ef751
+run_name: Data_Versioning
+run_uuid: 330df4574ae346a0b318b039076ef751
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729384333110
+status: 3
+tags: []
+user_id: kurtbadelt
