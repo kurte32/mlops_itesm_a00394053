@@ -1,4 +1,4 @@
-# src/models/model_trainer.py
+# ModelTrainer.py
 
 import os
 import sys
@@ -8,6 +8,7 @@ from typing import Any, Dict
 import mlflow
 import mlflow.sklearn
 import mlflow.xgboost
+import xgboost  # Import xgboost to access XGBModel
 from sklearn.base import BaseEstimator
 from sklearn.metrics import (
     accuracy_score,
@@ -43,6 +44,7 @@ class ModelTrainer:
         params: Dict[str, Any],
         model_name: str,
         mlflow_experiment: str,
+        mlflow_tracking_uri: str = "http://172.29.4.89:5000",  # Hardcoded URI
     ):
         """
         Initializes the ModelTrainer with the given model and parameters.
@@ -52,11 +54,21 @@ class ModelTrainer:
             params (Dict[str, Any]): Hyperparameters for the model.
             model_name (str): A descriptive name for the model.
             mlflow_experiment (str): The name of the MLflow experiment.
+            mlflow_tracking_uri (str, optional): The MLflow tracking server URI. Defaults to "http://172.29.4.89:5000".
         """
         self.model = model
         self.params = params
         self.model_name = model_name
         self.mlflow_experiment = mlflow_experiment
+        self.mlflow_tracking_uri = mlflow_tracking_uri
+
+        # Set MLflow tracking URI
+        mlflow.set_tracking_uri(self.mlflow_tracking_uri)
+        logger.info(f"MLflow tracking URI set to: {self.mlflow_tracking_uri}")
+
+        # Set MLflow experiment
+        mlflow.set_experiment(self.mlflow_experiment)
+        logger.info(f"MLflow experiment set to: {self.mlflow_experiment}")
 
     def _train(self, x_train: Any, y_train: Any) -> None:
         """
@@ -68,6 +80,7 @@ class ModelTrainer:
         """
         try:
             logger.info(f"Training {self.model_name} with parameters: {self.params}")
+            self.model.set_params(**self.params)  # Ensure parameters are set
             self.model.fit(x_train, y_train)
             logger.info(f"Training completed for {self.model_name}.")
         except Exception as e:
@@ -160,6 +173,11 @@ class ModelTrainer:
             mlflow.log_artifact(cm_path)
             plt.close()
             logger.info(f"Logged confusion matrix to MLflow at {cm_path}.")
+
+            # Optionally, clean up local files after logging
+            os.remove(report_path)
+            os.remove(cm_path)
+            logger.info("Cleaned up local artifact files.")
         except Exception as e:
             logger.error(f"Error logging artifacts to MLflow: {e}")
             raise e
@@ -169,7 +187,7 @@ class ModelTrainer:
         Logs the trained model to MLflow.
         """
         try:
-            if hasattr(self.model, 'save_model'):
+            if isinstance(self.model, xgboost.XGBModel):
                 mlflow.xgboost.log_model(self.model, self.model_name)
                 logger.info(f"Logged XGBoost model to MLflow under {self.model_name}.")
             else:
@@ -192,16 +210,6 @@ class ModelTrainer:
             y_test (Any): Testing labels.
         """
         try:
-            # Set MLflow experiment
-            mlflow.set_experiment(self.mlflow_experiment)
-            logger.info(f"Set MLflow experiment to {self.mlflow_experiment}.")
-
-            # Override MLflow tracking URI if set in environment variables
-            tracking_uri = os.getenv('MLFLOW_TRACKING_URI')
-            if tracking_uri:
-                mlflow.set_tracking_uri(tracking_uri)
-                logger.info(f"Set MLflow tracking URI to {tracking_uri}.")
-
             # Start MLflow run
             with mlflow.start_run(run_name=self.model_name) as run:
                 logger.info(f"Started MLflow run: {run.info.run_id} for {self.model_name}.")

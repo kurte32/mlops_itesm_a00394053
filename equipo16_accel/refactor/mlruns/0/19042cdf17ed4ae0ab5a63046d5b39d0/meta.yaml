@@ -1,0 +1,15 @@
+artifact_uri: file:///home/kurtbadelt/MNA/MLOPS/MLOps/notebooks/Actividades/Fase1/equipo16_accel/refactor/mlruns/0/19042cdf17ed4ae0ab5a63046d5b39d0/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 19042cdf17ed4ae0ab5a63046d5b39d0
+run_name: SVM_Model
+run_uuid: 19042cdf17ed4ae0ab5a63046d5b39d0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730557199240
+status: 1
+tags: []
+user_id: kurtbadelt

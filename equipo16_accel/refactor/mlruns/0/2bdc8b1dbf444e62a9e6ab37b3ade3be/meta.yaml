@@ -1,0 +1,15 @@
+artifact_uri: file:///home/kurtbadelt/MNA/MLOPS/MLOps/notebooks/Actividades/Fase1/equipo16_accel/refactor/mlruns/0/2bdc8b1dbf444e62a9e6ab37b3ade3be/artifacts
+end_time: 1730557199227
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2bdc8b1dbf444e62a9e6ab37b3ade3be
+run_name: RandomForest_Model
+run_uuid: 2bdc8b1dbf444e62a9e6ab37b3ade3be
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730557173252
+status: 3
+tags: []
+user_id: kurtbadelt
