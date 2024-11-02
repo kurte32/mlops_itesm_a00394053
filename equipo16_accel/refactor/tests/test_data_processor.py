@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import os
 import tempfile
-from src.data.data_processor import DataProcessor
+from refactor.DataProcessor import DataProcessor
 
 @pytest.fixture
 def data_processor():
