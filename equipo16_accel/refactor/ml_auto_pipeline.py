@@ -62,17 +62,22 @@ def process_raw_data():
 
 def visualize_data(dataframe):
     """
-    Visualizes the data using histograms and Kernel Density Estimation (KDE) plots.
+    Visualizes the data using histograms, KDE plots, boxplots, correlation matrix, and scatter plots.
     """
+    visualizer = Visualizer()
+    
+    # Existing visualizations
+    visualizer.plot_histograms(dataframe, ['x', 'y', 'z'])
+    visualizer.plot_kde(dataframe, ['x', 'y', 'z'])
+    
+    # New visualizations
+    visualizer.plot_boxplots(dataframe, 'configuración', ['x', 'y', 'z'])
+    visualizer.plot_correlation_matrix(dataframe, ['x', 'y', 'z', 'pctid'])
+    visualizer.plot_vibration_vs_rpm(dataframe, 'pctid', 'vibration_magnitude', 'configuración')
+    
+    # Summary Statistics
+    visualizer.display_summary_statistics(dataframe, ['configuración', 'pctid'], ['x', 'y', 'z'])
 
-    # Create a new Visualizer instance
-    l_visualizer = Visualizer()
-
-    # plot dataframe histograms
-    l_visualizer.plot_histograms(dataframe, ['x', 'y', 'z'])
-
-    # plot dataframe kde
-    l_visualizer.plot_kde(dataframe, ['x', 'y', 'z'])
 
 
 def prepare_data(dataframe):
