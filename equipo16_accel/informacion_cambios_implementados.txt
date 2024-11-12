@@ -1,0 +1,219 @@
+Informe sobre Técnicas de Gobernanza, Reproducibilidad, Pruebas y Mejores Prácticas Implementadas en el Proyecto
+Introducción
+
+Este documento resume las técnicas de gobernanza, prácticas de reproducibilidad, pruebas y mejores prácticas que hemos implementado en nuestro proyecto de clasificación de configuraciones de vibración utilizando datos de acelerómetros. Incluye los últimos cambios realizados para mejorar la calidad, seguridad y confiabilidad del proyecto.
+1. Técnicas de Gobernanza Implementadas
+1.1 Estandarización de Código y Estilo
+
+Actividad Implementada:
+
+    Adición de Docstrings y Comentarios:
+        Hemos añadido docstrings detallados a todos los módulos, clases, métodos y funciones en nuestro código (DataProcessor.py, ModelTrainer.py, Visualizer.py, ml_auto_pipeline.py).
+        Utilizamos el formato de docstrings Google Style para mantener la consistencia y facilitar la generación de documentación automática.
+
+    Comentarios en Línea:
+        Añadimos comentarios en bloques de código complejos para explicar la lógica y mejorar la legibilidad.
+
+Beneficios:
+
+    Mejora la legibilidad y mantenibilidad del código.
+    Facilita la colaboración entre miembros del equipo y nuevos contribuidores.
+    Permite la generación de documentación automática para los usuarios finales.
+
+1.2 Configuración Estandarizada de Logging
+
+Actividad Implementada:
+
+    Archivo de Configuración de Logging (logging_config.py):
+        Creamos un módulo separado para configurar el logging de manera consistente en todos los módulos.
+        Establecimos diferentes niveles de logging (DEBUG, INFO, WARNING, ERROR) para controlar el nivel de detalle de los mensajes.
+
+    Mensajes de Log Mejorados:
+        Aseguramos que todos los mensajes de log sean claros, informativos y sigan un formato consistente.
+        Incluimos información contextual relevante en los mensajes de log.
+
+Beneficios:
+
+    Facilita la detección y resolución de errores durante el desarrollo y ejecución.
+    Proporciona una trazabilidad detallada de las operaciones realizadas por el sistema.
+    Mejora la monitorización y el mantenimiento del sistema en producción.
+
+1.3 Manejo de Errores y Validación de Entradas
+
+Actividad Implementada:
+
+    Bloques Try-Except:
+        Envolvimos secciones críticas del código en bloques try-except para manejar excepciones de manera controlada.
+        Proporcionamos mensajes de error significativos para facilitar la depuración.
+
+    Validación de Entradas:
+        Añadimos validaciones al inicio de las funciones para verificar tipos y valores de los parámetros de entrada.
+        Lanzamos excepciones apropiadas (ValueError, TypeError) cuando se detectan entradas inválidas.
+
+Beneficios:
+
+    Evita fallos inesperados y proporciona información útil en caso de errores.
+    Aumenta la robustez y confiabilidad del sistema.
+    Mejora la experiencia del usuario al interactuar con el sistema.
+
+1.4 Uso de Variables de Entorno para Configuraciones Sensibles
+
+Actividad Implementada:
+
+    Externalización de Configuraciones:
+        Eliminamos información sensible codificada en el código, como la URI de seguimiento de MLflow.
+        Utilizamos variables de entorno y archivos .env para almacenar configuraciones sensibles.
+
+    Actualización del Código:
+        Modificamos ModelTrainer.py y otros módulos para leer configuraciones desde variables de entorno.
+
+Beneficios:
+
+    Mejora la seguridad al evitar exponer información sensible en el código fuente.
+    Facilita la configuración y despliegue en diferentes entornos (desarrollo, pruebas, producción).
+
+2. Prácticas de Reproducibilidad
+2.1 Generación de Documentación Automática
+
+Actividad Implementada:
+
+    Uso de Sphinx para Generar Documentación:
+        Instalamos Sphinx y configuramos el proyecto para generar documentación a partir de los docstrings.
+        Actualizamos el directorio docs con la documentación generada.
+
+Beneficios:
+
+    Proporciona una referencia completa para usuarios y desarrolladores.
+    Facilita la comprensión del funcionamiento interno del sistema.
+    Asegura que la documentación esté siempre actualizada con el código.
+
+2.2 Establecimiento de Semillas Aleatorias
+
+Actividad Implementada:
+
+    Semillas en Generadores de Números Aleatorios:
+        Establecimos semillas (random_state=42) en todos los modelos y funciones que utilizan aleatoriedad.
+        Incluimos comentarios explicando el propósito de establecer semillas.
+
+Beneficios:
+
+    Garantiza la reproducibilidad de los experimentos y resultados.
+    Facilita la comparación entre diferentes corridas y versiones del modelo.
+
+2.3 Manejo de Entornos y Dependencias
+
+Actividad Implementada:
+
+    Actualización de requirements.txt:
+        Enumeramos todas las dependencias con versiones específicas.
+        Utilizamos pip freeze para capturar las versiones exactas utilizadas.
+
+    Instrucciones de Configuración del Entorno:
+        Proporcionamos instrucciones detalladas en README.md para configurar el entorno y instalar las dependencias.
+
+Beneficios:
+
+    Asegura que todos los colaboradores trabajen con el mismo entorno, evitando incompatibilidades.
+    Facilita la configuración y despliegue del sistema en diferentes máquinas y entornos.
+
+2.4 Automatización del Pipeline de Entrenamiento
+
+Actividad Implementada:
+
+    Script Maestro (ml_auto_pipeline.py):
+        Automatizamos todo el flujo de trabajo en un solo script que ejecuta todas las etapas: procesamiento de datos, visualización, entrenamiento y evaluación de modelos.
+
+Beneficios:
+
+    Simplifica la ejecución y reproducción del pipeline completo.
+    Facilita la integración con sistemas de automatización y despliegue continuo.
+
+3. Pruebas Implementadas
+3.1 Cobertura de Pruebas Unitarias
+
+Actividad Implementada:
+
+    Ampliación de Pruebas Unitarias:
+        Añadimos pruebas unitarias para cubrir los módulos principales, incluyendo DataProcessor.py y ModelTrainer.py.
+        Utilizamos pytest como framework de pruebas.
+
+Beneficios:
+
+    Detecta errores y regresiones en etapas tempranas del desarrollo.
+    Aumenta la confiabilidad y calidad del código.
+
+3.2 Pruebas de Integración
+
+Actividad Implementada:
+
+    Pruebas de Flujo Completo:
+        Implementamos pruebas que verifican la interacción entre diferentes componentes del sistema.
+        Aseguramos que el pipeline completo funcione correctamente de principio a fin.
+
+Beneficios:
+
+    Garantiza que los componentes funcionan juntos como se espera.
+    Identifica problemas que pueden no ser evidentes en pruebas unitarias aisladas.
+
+3.3 Mejora y Actualización de las Pruebas tras Cambios Recientes
+
+Actividad Implementada:
+
+    Actualización de Pruebas Existentes:
+        Modificamos las pruebas para reflejar los cambios en el manejo de errores y logging.
+        Añadimos nuevas pruebas para cubrir las validaciones de entrada y manejo de excepciones.
+
+Beneficios:
+
+    Mantiene la cobertura de pruebas a pesar de las modificaciones en el código.
+    Asegura que las nuevas funcionalidades funcionan como se espera.
+
+4. Mejores Prácticas Implementadas
+4.1 Modularización y Refactorización del Código
+
+Actividad Implementada:
+
+    Separación de Responsabilidades:
+        Aseguramos que cada módulo y clase tiene una responsabilidad única y bien definida.
+        Refactorizamos funciones largas en componentes más pequeños y reutilizables.
+
+Beneficios:
+
+    Mejora la mantenibilidad y escalabilidad del código.
+    Facilita la comprensión y colaboración entre desarrolladores.
+
+4.2 Colaboración en Equipo y Control de Versiones
+
+Actividad Implementada:
+
+    Uso de Git y GitHub:
+        Todos los miembros del equipo contribuyen activamente al repositorio.
+        Utilizamos ramas para desarrollar nuevas funcionalidades y realizamos pull requests para integrar cambios.
+
+    Revisiones de Código:
+        Implementamos revisiones de código para mejorar la calidad y compartir conocimiento entre el equipo.
+
+Beneficios:
+
+    Fomenta la colaboración y comunicación efectiva.
+    Asegura un control de calidad antes de integrar cambios en la rama principal.
+
+4.3 Buenas Prácticas de Codificación
+
+Actividad Implementada:
+
+    Estándares de Codificación:
+        Adoptamos convenciones de nomenclatura y estructura de código consistentes.
+        Eliminamos importaciones y código no utilizado para limpiar la base de código.
+
+    Optimización de Dependencias:
+        Revisamos y gestionamos las dependencias externas para asegurarnos de que son necesarias y están actualizadas.
+
+Beneficios:
+
+    Aumenta la eficiencia y rendimiento del sistema.
+    Reduce la complejidad y facilita la mantenibilidad a largo plazo.
+
+Conclusiones
+
+La implementación de estas técnicas y prácticas ha fortalecido significativamente nuestro proyecto, garantizando su calidad, seguridad y confiabilidad. Las últimas mejoras, especialmente en documentación, logging y manejo de errores, no solo cumplen con los estándares de la industria sino que también facilitan la colaboración y el mantenimiento futuros. Continuaremos iterando sobre estas prácticas para seguir mejorando y adaptándonos a las necesidades del proyecto.

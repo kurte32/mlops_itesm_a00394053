@@ -16,7 +16,7 @@ import random  # Importación añadida
 import DataProcessor as dp
 import ModelTrainer as mt
 import Visualizer as vz
-
+import joblib 
 # Configure logging
 from logging_config import setup_logging
 logger = setup_logging()
@@ -254,6 +254,7 @@ def get_model(model_name: str, params: Dict[str, Any]) -> Any:
                 kernel=params['kernel'],
                 C=params['C'],
                 gamma=params['gamma'],
+                probability=True,  # Enable probability estimates
                 random_state=SEED
             )
         elif model_name == 'XGBoost_Model':
@@ -273,7 +274,7 @@ def get_model(model_name: str, params: Dict[str, Any]) -> Any:
         logger.error(f"Error initializing model {model_name}: {e}")
         raise
 
-
+#
 def train_and_evaluate_models(
     models: List[Dict[str, Any]],
     x_train: Any,
@@ -295,6 +296,10 @@ def train_and_evaluate_models(
     """
     try:
         mlflow_experiment = "Vibration_Configuration_Classification_refactorizado"
+        best_score = -np.inf
+        best_model = None
+        best_model_name = ""
+        best_params = {}
 
         for model_info in models:
             logger.info(f"Training model: {model_info['name']}")
@@ -323,9 +328,28 @@ def train_and_evaluate_models(
                 trainer = mt.ModelTrainer(
                     model, params, model_info['name'], mlflow_experiment
                 )
-                trainer.run_training(x_train_prepared, x_test_prepared, y_train, y_test)
+                metrics = trainer.run_training(x_train_prepared, x_test_prepared, y_train, y_test)
+
+                # Assume `metrics` is a dictionary containing evaluation metrics like accuracy
+                current_score = metrics.get('accuracy', 0)  # Replace 'accuracy' with your metric
+
+                if current_score > best_score:
+                    best_score = current_score
+                    best_model = model
+                    best_model_name = model_info['name']
+                    best_params = params
+                    print(f"Best model updated: {best_model_name} with accuracy: {best_score}")
 
                 logger.info(f"Completed training for {model_info['name']} with params: {params}")
+
+        if best_model is not None:
+            # Save the best model
+            model_filename = 'best_model.joblib'
+            joblib.dump(best_model, model_filename)
+            logger.info(f"Best model saved as {model_filename} with accuracy: {best_score}")
+        else:
+            logger.error("No model was trained successfully.")
+            raise ValueError("Training failed to produce any model.")
 
     except Exception as e:
         logger.error(f"Error during training and evaluation: {e}")

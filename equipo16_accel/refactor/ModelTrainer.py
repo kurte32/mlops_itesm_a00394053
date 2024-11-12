@@ -199,7 +199,7 @@ class ModelTrainer:
 
     def run_training(
         self, x_train: Any, x_test: Any, y_train: Any, y_test: Any
-    ) -> None:
+    ) -> Dict[str, float]:
         """
         Executes the training, evaluation, and logging of the model.
 
@@ -208,6 +208,9 @@ class ModelTrainer:
             x_test (Any): Testing features.
             y_train (Any): Training labels.
             y_test (Any): Testing labels.
+
+        Returns:
+            Dict[str, float]: Evaluation metrics.
         """
         try:
             # Start MLflow run
@@ -239,6 +242,10 @@ class ModelTrainer:
                 logger.info(
                     f"Completed MLflow run: {run.info.run_id} for {self.model_name}."
                 )
+
+                # Return the metrics
+                return metrics
+
         except Exception as e:
             logger.error(f"Error during the training pipeline: {e}")
             raise e
