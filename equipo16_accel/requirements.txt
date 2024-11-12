@@ -2,12 +2,12 @@ aiohappyeyeballs==2.4.3
 aiohttp==3.10.10
 aiohttp-retry==2.8.3
 aiosignal==1.3.1
-alabaster==1.0.0
 alembic==1.13.3
 amqp==5.2.0
 annotated-types==0.7.0
 antlr4-python3-runtime==4.9.3
-anyio==4.6.2.post1
+anyio
+alabaster
 appdirs==1.4.4
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
@@ -22,7 +22,7 @@ awscli==1.35.10
 babel==2.16.0
 beautifulsoup4==4.12.3
 billiard==4.2.1
-black==24.10.0
+black
 bleach==6.1.0
 blinker==1.8.2
 botocore==1.35.44
@@ -63,7 +63,7 @@ dvc-studio-client==0.21.0
 dvc-task==0.40.2
 dvclive==3.48.0
 entrypoints==0.4
--e git+ssh://git@github.com/kurte32/mlops_itesm_a00394053.git@33607e8d4e9db5270e96691c8b9ec3b11f87b23d#egg=equipo16_accel&subdirectory=equipo16_accel
+-e git+ssh://git@github.com/kurte32/mlops_itesm_a00394053.git@74480947677ecce55e2a1b49f6ab2f140e5dc5ff#egg=equipo16_accel&subdirectory=equipo16_accel
 exceptiongroup==1.2.2
 executing==2.1.0
 fastapi==0.115.4

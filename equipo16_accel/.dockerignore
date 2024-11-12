@@ -1,0 +1,46 @@
+# Python cache files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv_mlops/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Data directories
+data/raw/
+data/processed/
+
+# MLflow directories
+mlruns/
+models/
+
+# Notebooks
+notebooks/
+*.ipynb_checkpoints
+
+# Logs
+logs/
+*.log
+
+# Version control
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Documentation and reports
+docs/
+reports/
+*.md
+
+# Miscellaneous
+*.env
+.env
