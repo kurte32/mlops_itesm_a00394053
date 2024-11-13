@@ -16,15 +16,21 @@ RUN apt-get update && \
 # Set the working directory inside the container
 WORKDIR /app
 
+# Create a logs directory
+RUN mkdir -p /app/logs
+
 # Copy the requirements.txt into the container
 COPY requirements.txt /app/
 
-# Upgrade pip and install Python dependencies
 RUN pip3 install --upgrade pip && \
-    pip3 install --no-cache-dir -r requirements.txt
+    pip3 install --pre --no-cache-dir -r requirements.txt
+
 
 # Copy the rest of the application code into the container
 COPY . /app/
+
+# Ensure the logs directory has the appropriate permissions
+RUN chmod -R 755 /app/logs
 
 # Expose port 8000 for the FastAPI application
 EXPOSE 8000

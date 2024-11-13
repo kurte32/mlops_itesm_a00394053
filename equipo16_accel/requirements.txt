@@ -1,3 +1,5 @@
+numpy
+scikit-learn
 aiohappyeyeballs==2.4.3
 aiohttp==3.10.10
 aiohttp-retry==2.8.3
@@ -144,7 +146,6 @@ nest-asyncio==1.6.0
 networkx
 notebook
 notebook_shim
-numpy
 nvidia-nccl-cu12
 omegaconf
 opentelemetry-api
@@ -200,7 +201,6 @@ rsa
 ruamel.yaml
 ruamel.yaml.clib
 s3transfer
-scikit-learn
 scipy
 scmrepo
 seaborn

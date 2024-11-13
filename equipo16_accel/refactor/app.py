@@ -8,10 +8,37 @@ import pandas as pd
 from typing import List
 import logging
 import os
+from logging.handlers import RotatingFileHandler
+
+# Create a logs directory if it doesn't exist
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("equipo16_accel_app")
+logger.setLevel(logging.INFO)  # Set the logging level as needed
+
+# Create handlers
+c_handler = logging.StreamHandler()  # Console handler
+f_handler = RotatingFileHandler(
+    os.path.join(LOG_DIR, "app.log"),
+    maxBytes=5*1024*1024,  # 5 MB
+    backupCount=3
+)  # File handler with rotation
+
+c_handler.setLevel(logging.INFO)
+f_handler.setLevel(logging.INFO)
+
+# Create formatters and add them to handlers
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+c_handler.setFormatter(formatter)
+f_handler.setFormatter(formatter)
+
+# Add handlers to the logger
+logger.addHandler(c_handler)
+logger.addHandler(f_handler)
 
 app = FastAPI(
     title="Predicción de configuración",
@@ -28,12 +55,14 @@ def load_model():
     Load the model during startup
     """
     global model
-    model_path = "best_model.joblib"  # Adjust path if necessary
+    model_path = os.path.join(os.path.dirname(__file__), "best_model.joblib")
+    
     if not os.path.exists(model_path):
         logger.error(f"Model file '{model_path}' does not exist.")
         raise FileNotFoundError(f"Model file '{model_path}' not found.")
 
     try:
+        logger.info(f"Loading model from: {model_path}")
         model = joblib.load(model_path)
         logger.info("Model loaded successfully.")
     except Exception as e:
