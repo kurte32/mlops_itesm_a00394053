@@ -201,3 +201,5 @@ pip-selfcheck.json
 
 #Models
 best_model.joblib
+*.joblib
+*.pkl
