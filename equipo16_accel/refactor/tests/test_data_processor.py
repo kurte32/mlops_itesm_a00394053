@@ -6,7 +6,9 @@ import pandas as pd
 import numpy as np
 import os
 import tempfile
-from refactor.DataProcessor import DataProcessor
+
+from equipo16_accel.refactor.DataProcessor import DataProcessor
+
 
 @pytest.fixture
 def data_processor():
@@ -39,7 +41,7 @@ def test_load_data_success(data_processor):
     expected_data = pd.read_csv(os.path.join(data_processor.data_dir, 'raw', 'accelerometer.csv'))
     pd.testing.assert_frame_equal(data_processor.raw_data, expected_data)
 
-@patch('refactor.DataProcessor.pd.read_csv')
+@patch('equipo16_accel.refactor.DataProcessor.pd.read_csv')
 def test_load_data_file_not_found(mock_read_csv, data_processor):
     mock_read_csv.side_effect = FileNotFoundError
     with pytest.raises(FileNotFoundError):
