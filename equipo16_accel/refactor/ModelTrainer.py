@@ -44,7 +44,7 @@ class ModelTrainer:
         params: Dict[str, Any],
         model_name: str,
         mlflow_experiment: str,
-        mlflow_tracking_uri: str = "http://172.29.4.89:5000",  # Hardcoded URI
+        mlflow_tracking_uri: str = "",
     ):
         """
         Initializes the ModelTrainer with the given model and parameters.
@@ -63,8 +63,9 @@ class ModelTrainer:
         self.mlflow_tracking_uri = mlflow_tracking_uri
 
         # Set MLflow tracking URI
-        mlflow.set_tracking_uri(self.mlflow_tracking_uri)
-        logger.info(f"MLflow tracking URI set to: {self.mlflow_tracking_uri}")
+        if self.mlflow_tracking_uri != "":
+            mlflow.set_tracking_uri(self.mlflow_tracking_uri)
+            logger.info(f"MLflow tracking URI set to: {self.mlflow_tracking_uri}")
 
         # Set MLflow experiment
         mlflow.set_experiment(self.mlflow_experiment)

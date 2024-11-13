@@ -1,10 +1,12 @@
 # tests/test_model_trainer_pytest.py
 
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from sklearn.linear_model import LogisticRegression
 from sklearn.datasets import make_classification
-from refactor.ModelTrainer import ModelTrainer
+
+from equipo16_accel.refactor.ModelTrainer import ModelTrainer
+
 
 @pytest.fixture
 def synthetic_data():
@@ -23,9 +25,8 @@ def mock_mlflow():
     Yields:
         Tuple of mocked mlflow.set_tracking_uri and mlflow.set_experiment functions.
     """
-    with patch('refactor.ModelTrainer.mlflow.set_tracking_uri') as mock_set_tracking_uri, \
-         patch('refactor.ModelTrainer.mlflow.set_experiment') as mock_set_experiment:
-        yield mock_set_tracking_uri, mock_set_experiment
+    with patch('equipo16_accel.refactor.ModelTrainer.mlflow.set_experiment') as mock_set_experiment:
+        yield mock_set_experiment
 
 @pytest.fixture
 def model_trainer(synthetic_data, mock_mlflow):
@@ -76,10 +77,7 @@ def test_initialization(model_trainer):
         model_trainer: Fixture providing the ModelTrainer instance.
     """
     trainer, _, _, _, _, mock_mlflow = model_trainer  # Unpack all 6 values
-    mock_set_tracking_uri, mock_set_experiment = mock_mlflow
-
-    # Assert MLflow tracking URI is set correctly
-    mock_set_tracking_uri.assert_called_once_with(trainer.mlflow_tracking_uri)
+    mock_set_experiment = mock_mlflow
 
     # Assert MLflow experiment is set correctly
     mock_set_experiment.assert_called_once_with(trainer.mlflow_experiment)
@@ -88,7 +86,7 @@ def test_initialization(model_trainer):
     assert trainer.model_name == 'LogisticRegression'
     assert trainer.params == {'C': 1.0, 'solver': 'liblinear'}
 
-@patch('refactor.ModelTrainer.mlflow.log_metric')
+@patch('equipo16_accel.refactor.ModelTrainer.mlflow.log_metric')
 def test_log_metrics_success(mock_log_metric, model_trainer):
     """
     Test that metrics are logged correctly using MLflow.
@@ -127,7 +125,7 @@ def test_log_metrics_without_setup():
     # Define metrics
     metrics = {'accuracy': 0.85, 'precision': 0.80}
 
-    with patch('refactor.ModelTrainer.mlflow.log_metric') as mock_log_metric:
+    with patch('equipo16_accel.refactor.ModelTrainer.mlflow.log_metric') as mock_log_metric:
         trainer._log_metrics(metrics)
         for key, value in metrics.items():
             mock_log_metric.assert_any_call(key, value)
